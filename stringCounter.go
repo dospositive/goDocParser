@@ -48,7 +48,7 @@ func (p *StringCounter) SafetyCount() (int, error) {
 	sizeOfSubstring := len([]byte(p.substring))
 	sliceSize := 1024
 	sliceToSearch := []byte(p.substring)
-	//TODO?
+
 	if len(p.substring) > sliceSize {
 		sliceSize = (int)((float32)(len(p.substring)) * 1.1)
 	}
