@@ -14,8 +14,8 @@ type StringCounter struct {
 	reader    io.Reader
 }
 
-// SetSubtstring - getter to substr in  StringCounter
-func (p *StringCounter) SetSubtstring(aSubstring string) {
+// SetSubstring - getter to substr in  StringCounter
+func (p *StringCounter) SetSubstring(aSubstring string) {
 	p.substring = aSubstring
 }
 
@@ -34,8 +34,8 @@ func (p *StringCounter) GetReader() io.Reader {
 	return p.reader
 }
 
-// SaftyCount func to counting substr in Reader (use buffers)
-func (p *StringCounter) SaftyCount() (int, error) {
+// SafetyCount func to counting substr in Reader (use buffers)
+func (p *StringCounter) SafetyCount() (int, error) {
 	var resultCount int = 0
 
 	if p.reader == nil {
@@ -45,9 +45,9 @@ func (p *StringCounter) SaftyCount() (int, error) {
 		return resultCount, errors.New("empty substring")
 	}
 
-	sizeOfSubsltring := len([]byte(p.substring))
+	sizeOfSubstring := len([]byte(p.substring))
 	sliceSize := 1024
-	sliceToSerch := []byte(p.substring)
+	sliceToSearch := []byte(p.substring)
 	//TODO?
 	if len(p.substring) > sliceSize {
 		sliceSize = (int)((float32)(len(p.substring)) * 1.1)
@@ -72,7 +72,7 @@ func (p *StringCounter) SaftyCount() (int, error) {
 	for {
 
 		if n1 > 0 {
-			resultCount += bytes.Count(sliceToParse1, sliceToSerch)
+			resultCount += bytes.Count(sliceToParse1, sliceToSearch)
 		}
 		n2, err = p.reader.Read(sliceToParse2)
 
@@ -84,18 +84,18 @@ func (p *StringCounter) SaftyCount() (int, error) {
 			//joint parse counting
 			//example: pattern:go,buf 3; sl1=gog;sl2=og; need catch
 			//substring inside joint
-			startPosInSlice1 := len(sliceToParse1) - (sizeOfSubsltring - 1)
+			startPosInSlice1 := len(sliceToParse1) - (sizeOfSubstring - 1)
 			endPosInSLice2 := 0
-			if n2 > sizeOfSubsltring-1 {
-				endPosInSLice2 = sizeOfSubsltring - 1
+			if n2 > sizeOfSubstring-1 {
+				endPosInSLice2 = sizeOfSubstring - 1
 			} else {
 				endPosInSLice2 = n2
 			}
-			jointSlice := make([]byte, 0, 2*sizeOfSubsltring-2)
+			jointSlice := make([]byte, 0, 2*sizeOfSubstring-2)
 			jointSlice = append(jointSlice, sliceToParse1[startPosInSlice1:]...)
 			jointSlice = append(jointSlice, sliceToParse2[:endPosInSLice2]...)
 
-			resultCount += bytes.Count(jointSlice, sliceToSerch)
+			resultCount += bytes.Count(jointSlice, sliceToSearch)
 		}
 
 		needPostWork = true
@@ -108,7 +108,7 @@ func (p *StringCounter) SaftyCount() (int, error) {
 	}
 
 	if needPostWork {
-		resultCount += bytes.Count(sliceToParse1, sliceToSerch)
+		resultCount += bytes.Count(sliceToParse1, sliceToSearch)
 	}
 
 	return resultCount, nil

@@ -19,11 +19,11 @@ func main() {
 	netCounter.RunWorkers()
 
 	go func() {
-		scaner := bufio.NewScanner(os.Stdin)
+		scanner := bufio.NewScanner(os.Stdin)
 
-		for end := scaner.Scan(); end; {
-			stringChan <- scaner.Text()
-			end = scaner.Scan()
+		for end := scanner.Scan(); end; {
+			stringChan <- scanner.Text()
+			end = scanner.Scan()
 		}
 		close(stringChan)
 	}()

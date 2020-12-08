@@ -15,9 +15,9 @@ type AsyncNetCounter struct {
 }
 
 // GetAsyncNetCounter - create a struct for work
-func GetAsyncNetCounter(aSubstring string, aCountOfgoroutines int,
+func GetAsyncNetCounter(aSubstring string, aCountGoroutines int,
 	aDataChan chan string) *AsyncNetCounter {
-	a := AsyncNetCounter{aSubstring, aCountOfgoroutines, aDataChan, make(chan URIInfo)}
+	a := AsyncNetCounter{aSubstring, aCountGoroutines, aDataChan, make(chan URIInfo)}
 	return &a
 }
 
@@ -45,18 +45,18 @@ func getNetCounter(targetSubstr string) func(string) (int, error) {
 		defer resp.Body.Close()
 		var s StringCounter
 		s.SetReader(resp.Body)
-		s.SetSubtstring(targetSubstr)
-		return s.SaftyCount()
+		s.SetSubstring(targetSubstr)
+		return s.SafetyCount()
 	}
 }
 
-// RunWorkers - run pool workers, thay process inURI chan
+// RunWorkers - run pool workers, they process inURI chan
 func (a *AsyncNetCounter) RunWorkers() {
 	go func() {
 		var wg sync.WaitGroup
 		netCounter := getNetCounter(a.substring)
 		uriChan := make(chan string)
-		countOfListner := 0
+		countOfListener := 0
 
 		for uri := range a.inURI {
 
@@ -66,8 +66,8 @@ func (a *AsyncNetCounter) RunWorkers() {
 					isReadyToNext = true
 
 				default:
-					if countOfListner < a.countOfGoroutines {
-						countOfListner++
+					if countOfListener < a.countOfGoroutines {
+						countOfListener++
 						wg.Add(1)
 						go worker(netCounter, uriChan, a.outInfo, &wg)
 					}
