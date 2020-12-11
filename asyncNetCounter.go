@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"time"
 	"sync"
 )
 
@@ -70,7 +71,9 @@ func (a *AsyncNetCounter) RunWorkers() {
 						countOfListener++
 						wg.Add(1)
 						go worker(netCounter, uriChan, a.outInfo, &wg)
-					}
+					} else {
+						time.Sleep(5 * time.Millisecond)	
+					}	
 				}
 			}
 		}
