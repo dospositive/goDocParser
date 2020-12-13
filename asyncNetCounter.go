@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// AsyncNetCounter struct -
+// AsyncNetCounter struct - 
 type AsyncNetCounter struct {
 	substring         string
 	countOfGoroutines int
