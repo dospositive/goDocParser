@@ -2,8 +2,8 @@ package main
 
 import (
 	"net/http"
-	"time"
 	"sync"
+	"time"
 )
 
 // AsyncNetCounter struct -
@@ -72,8 +72,9 @@ func (a *AsyncNetCounter) RunWorkers() {
 						wg.Add(1)
 						go worker(netCounter, uriChan, a.outInfo, &wg)
 					} else {
-						time.Sleep(5 * time.Millisecond)	
-					}	
+						//truly commit (in main)
+						time.Sleep(5 * time.Millisecond)
+					}
 				}
 			}
 		}
