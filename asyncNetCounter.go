@@ -77,6 +77,7 @@ func (a *AsyncNetCounter) RunWorkers() {
 =======
 						//hot fix
 >>>>>>> some commit comment
+						//some comment in main
 						time.Sleep(5 * time.Millisecond)
 					}
 				}
