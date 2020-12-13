@@ -6,7 +6,7 @@ import (
 	"sync"
 )
 
-// AsyncNetCounter struct -
+// AsyncNetCounter struct - 
 type AsyncNetCounter struct {
 	substring         string
 	countOfGoroutines int
@@ -72,6 +72,7 @@ func (a *AsyncNetCounter) RunWorkers() {
 						wg.Add(1)
 						go worker(netCounter, uriChan, a.outInfo, &wg)
 					} else {
+						//commetn from gitHub
 						time.Sleep(5 * time.Millisecond)	
 					}	
 				}
